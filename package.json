@@ -16,7 +16,11 @@
   "node-red": {
     "nodes": {
       "lower-case": "dist/nodes/lower-case.js",
-      "feishu-bot-send": "dist/nodes/feishu-bot-send.js"
+      "feishu-bot-send": "dist/nodes/feishu-bot-send.js",
+      "feishu-send": "dist/nodes/feishu-send.js",
+      "feishu-config": "dist/nodes/feishu-config.js",
+      "feishu-all-group": "dist/nodes/feishu-all-group.js",
+      "feishu-fetch-group-info": "dist/nodes/feishu-fetch-group-info.js"
     }
   },
   "devDependencies": {

@@ -1,0 +1,21 @@
+<script type="text/javascript">
+    RED.nodes.registerType('feishu-config', {
+        category: 'config',
+        defaults: {
+            appID: {value: null, required: true},
+            appSecret: {value: null, required: true},
+        }
+    })
+</script>
+
+
+<script type="text/html" data-template-name="feishu-config">
+    <div class="form-row">
+        <label for="node-config-input-appID"><i class="icon-bookmark"></i> App ID</label>
+        <input type="text" id="node-config-input-appID">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-appSecret"><i class="icon-bookmark"></i> App Secret</label>
+        <input type="text" id="node-config-input-appSecret">
+    </div>
+</script>

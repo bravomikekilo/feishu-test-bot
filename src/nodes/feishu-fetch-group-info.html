@@ -1,0 +1,31 @@
+<script type='text/javascript'>
+    RED.nodes.registerType('feishu-fetch-group-info', {
+        category: 'bot',
+        color: '#a6bbcf',
+        defaults: {
+            config: {value: "", type: 'feishu-config'},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'file.png',
+        label: function() {
+            return this.name || "feishu-fetch-group-info";
+        }
+    })
+</script>
+
+<script type='text/html', data-template-name='feishu-fetch-group-info'>
+    <div class='form-row'>
+        <label for="node-input-config">
+            <i class="icon-tag"></i> Name
+        </label>
+        <input type="text" id="node-input-config">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name='feishu-fetch-group-info'>
+    <p>
+        A node fetch group info of a message
+    </p>
+</script>

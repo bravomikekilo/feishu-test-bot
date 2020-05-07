@@ -1,0 +1,31 @@
+<script type='text/javascript'>
+    RED.nodes.registerType('feishu-all-group', {
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            config: {value: "", type: 'feishu-config'},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'file.png',
+        label: function() {
+            return this.name || "feishu-all-group";
+        }
+    })
+</script>
+
+<script type='text/html', data-template-name='feishu-all-group'>
+    <div class='form-row'>
+        <label for="node-input-config">
+            <i class="icon-tag"></i> Name
+        </label>
+        <input type="text" id="node-input-config">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name='feishu-all-group'>
+    <p>
+        A simple node add all group to message target
+    </p>
+</script>
