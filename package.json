@@ -20,15 +20,32 @@
       "feishu-send": "dist/nodes/feishu-send.js",
       "feishu-config": "dist/nodes/feishu-config.js",
       "feishu-all-group": "dist/nodes/feishu-all-group.js",
-      "feishu-fetch-group-info": "dist/nodes/feishu-fetch-group-info.js"
+      "feishu-fetch-group-info": "dist/nodes/feishu-fetch-group-info.js",
+      "feishu-activate": "dist/nodes/feishu-activate.js",
+      "feishu-upload-image": "dist/nodes/feishu-upload-image.js",
+      "feishu-fetch-image": "dist/nodes/feishu-fetch-image.js",
+      "feishu-msg": "dist/nodes/feishu-msg.js",
+      "read-image": "dist/nodes/read-image.js"
     }
   },
   "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/form-data": "^2.5.0",
+    "@types/node-fetch": "^2.5.7",
     "@types/node-red": "^0.20.1",
+    "@types/request": "^2.48.4",
     "node-red": "^1.0.4",
+    "request": "^2.88.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "axios": "^0.19.2"
+    "@types/into-stream": "^3.1.1",
+    "axios": "^0.19.2",
+    "express": "^4.17.1",
+    "form-data": "^3.0.0",
+    "into-stream": "^5.1.1",
+    "node-fetch": "^2.6.0",
+    "requests": "^0.3.0",
+    "tostream": "^1.0.0"
   }
 }

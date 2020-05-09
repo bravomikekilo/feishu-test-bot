@@ -1,0 +1,31 @@
+<script type='text/javascript'>
+    RED.nodes.registerType('read-image', {
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            path: {value: "", required: true},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'file.png',
+        label: function() {
+            return this.name || "read-image";
+        }
+    })
+</script>
+
+<script type='text/html', data-template-name='read-image'>
+    <div class='form-row'>
+        <label for="node-input-path">
+            <i class="icon-tag"></i> Path
+        </label>
+
+        <input type="text" id="node-input-path" placeholder="Path">
+    </div>
+</script>
+
+<script type="text/html" data-help-name='read-image'>
+    <p>
+        a node to read file from disk.
+    </p>
+</script>

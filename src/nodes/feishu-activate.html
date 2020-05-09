@@ -1,0 +1,42 @@
+<script type='text/javascript'>
+    RED.nodes.registerType('feishu-activate', {
+        category: 'bot',
+        color: '#a6bbcf',
+        defaults: {
+            url: {value: "/", required: true},
+            port: {
+                value: 2000,
+                required: true,
+            }
+        },
+        inputs: 0,
+        outputs: 0,
+        icon: 'file.png',
+        label: function() {
+            return this.name || "feishu-activate";
+        }
+    })
+</script>
+
+<script type='text/html', data-template-name='feishu-activate'>
+    <div class='form-row'>
+        <label for="node-input-url">
+            <i class="icon-tag"></i> URL
+        </label>
+
+        <input type="text" id="node-input-url" placeholder="URL">
+    </div>
+    <div class="form-row">
+        <label for="node-input-port">
+            <i class="icon-tag"></i> Port
+        </label>
+        <input type="text" id="node-input-port" placeholder="Port">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name='feishu-activate'>
+    <p>
+        A simple node to activate feishu request address.
+    </p>
+</script>

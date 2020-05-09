@@ -34,6 +34,15 @@ export = (RED: Red) => {
                 )
             })
 
+            let allUserSend = payload.target.user.map(user => {
+                return sendMsg(
+                    this.config.tenantToken,
+                    'open',
+                    user,
+                    payload.msg
+                )
+            })
+
             await Promise.all(allSend);
 
             done(msg);

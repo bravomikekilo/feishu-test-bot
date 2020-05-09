@@ -5,6 +5,8 @@ export const sendMessageURL: string = 'https://open.feishu.cn/open-apis/message/
 export const getGroupListURL = 'https://open.feishu.cn/open-apis/chat/v4/list'
 export const getGroupInfoURL: string = 'https://open.feishu.cn/open-apis/chat/v4/info'
 
+export const uploadImageURL: string = 'https://open.feishu.cn/open-apis/image/v4/put/'
+export const fetchImageURL: string = 'https://open.feishu.cn/open-apis/image/v4/get'
 
 export interface CommonRes {
     code: number;
@@ -37,6 +39,12 @@ export interface GetGroupListRes extends CommonRes {
 
 export interface GetGroupInfoRes extends CommonRes {
     data: Chat
+}
+
+export interface UploadImageRes extends CommonRes {
+    data: {
+        image_key: string
+    }
 }
 
 export interface SendMsgReq {
@@ -79,5 +87,30 @@ export interface SendChatShareMsgReq extends SendMsgReq {
     msg_type: 'share_chat',
     content: {
         share_open_chat_id: string
+    }
+}
+
+export interface RawMsg {
+    uuid: string,
+    token: string,
+    ts: string,
+    type: string,
+    event: {
+        type: "message",
+        app_id: string,
+        tenant_key: string,
+        root_id: string,
+        parent_id: string,
+        open_chat_id: string,
+        chat_type: 'private' | 'group',
+        msg_type: 'text',
+        open_id: string,
+        open_massage_id: string,
+        is_mention: boolean,
+        text: string,
+        text_without_at_bot: string,
+        title?: string,
+        image_keys?: string[],
+        image_key?: string
     }
 }
