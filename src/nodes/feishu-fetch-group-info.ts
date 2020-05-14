@@ -40,7 +40,7 @@ export = (RED: Red) => {
                 metaInfo = msg.feishu_meta_info;
             }
             
-            let groups = payload.target.chat;
+            let groups = metaInfo.chat;
             
             let fetchAll = groups.map(async g => {
                 if (typeof(g) === 'string' ) {
