@@ -89,7 +89,6 @@ describe('feishu-all-group-test', () => {
         const TEST_APPID = 'cvjfaioe '
         const TEST_APPSECRET = 'o uoj iowejoijohu10293jio23@ '
         const TEST_TENANT = 'a iojfeoaj  9023  oj1- '
-        const TEST_BUFFER = fs.readFileSync('./test.png')
         const TEST_GROUP_LIST = ['hello', 'world', ' 10920 239301 KLSDJFwio@']
         const TEST_GROUP_RESPONSE = {
             has_more: false,
