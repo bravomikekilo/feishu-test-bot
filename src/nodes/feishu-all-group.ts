@@ -5,7 +5,7 @@ import {TenantAccessRes} from '../io/api'
 import { getTenantAccess } from '../io/tenant'
 import { FeishuConfigNode } from './config-node'
 import { MessageObj, Message } from './msg'
-import { Payload } from './payload'
+import { Payload, MetaInfo } from './payload'
 import { sendMsg } from '../io/sendMsg'
 import { getGroupList } from '../io/getGroupList'
 
@@ -25,7 +25,7 @@ export = (RED: Red) => {
 
         this.on('input', async (msg, send, done) => {
             let payload = msg.payload as Payload
-            
+            let metaInfo = msg.feishu_meta_info as MetaInfo
             
             let groupListRes = await getGroupList(this.config.tenantToken);
 
@@ -33,7 +33,7 @@ export = (RED: Red) => {
 
             console.log(`message: ${JSON.stringify(msg)}`)
 
-            msg.payload.target.chat = groupList.map(g => g.chat_id);
+            msg.feishu_meta_info.target.chat = groupList.map(g => g.chat_id);
 
             send(msg);
         })

@@ -8,7 +8,6 @@ import { getTenantAccess } from '../io/tenant'
 import { FeishuConfigNode } from './config-node'
 
 interface FeishuMsgProp extends NodeProperties {
-    config: NodeId;
     url: string;
     port: number;
 }
@@ -17,7 +16,6 @@ interface FeishuMsgNode extends Node {
     url: string;
     port: number;
     app: Express;
-    config: FeishuConfigNode;
 }
 
 export = (RED: Red) => {
@@ -26,7 +24,6 @@ export = (RED: Red) => {
 
         this.url = prop.url;
         this.port = prop.port;
-        this.config = RED.nodes.getNode(prop.config) as FeishuConfigNode;
 
         const app = express();
         app.use(express.json());
@@ -34,7 +31,11 @@ export = (RED: Red) => {
         app.post(this.url, (req, res) => {
             let rawMsg = req.body as RawMsg;
 
-            const target = {
+            const metaInfo = {
+                target: {
+                    chat: rawMsg.event.chat_type === 'private' ? [] : [rawMsg.event.open_chat_id],
+                    user: rawMsg.event.chat_type === 'private' ? [rawMsg.event.open_id] : [],
+                },
                 chat: rawMsg.event.chat_type === 'private' ? [] : [rawMsg.event.open_chat_id],
                 user: rawMsg.event.chat_type === 'private' ? [rawMsg.event.open_id] : [],
             }
@@ -47,18 +48,18 @@ export = (RED: Red) => {
                         msg: {
                             image_key: rawMsg.event.image_key,
                         },
-                        target: target,
-                    }
+                    },
+                    feishu_meta_info: metaInfo
                 })
-            } else {
+            } else if(rawMsg.event.text_without_at_bot !== undefined) {
                 // we get a text message
                 this.send({
                     payload: {
                         msg: {
                             text: rawMsg.event.text_without_at_bot
                         },
-                        target: target,
-                    }
+                    },
+                    feishu_meta_info: metaInfo
                 })
 
             }

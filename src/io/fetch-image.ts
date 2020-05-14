@@ -5,12 +5,12 @@ import axios from 'axios'
 
 export async function fetchImage(auth: string, image_key: string) {
 
-    let res = await fetch(`${fetchImageURL}?image_key=${image_key}`, {
-        method: 'GET',
+    let res = await axios.get(`${fetchImageURL}?image_key=${image_key}`, {
         headers: {
             Authorization: `Bearer ${auth}`
-        }
-    }).then(res => res.buffer());
+        },
+        responseType: 'arraybuffer'
+    }).then(res => res.data);
 
     return res;
 }

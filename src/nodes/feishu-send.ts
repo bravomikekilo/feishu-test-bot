@@ -5,7 +5,7 @@ import {TenantAccessRes} from '../io/api'
 import { getTenantAccess } from '../io/tenant'
 import { FeishuConfigNode } from './config-node'
 import { MessageObj, Message } from './msg'
-import { Payload } from './payload'
+import { Payload, MetaInfo } from './payload'
 import { sendMsg } from '../io/sendMsg'
 
 interface FeishuSendProp extends NodeProperties {
@@ -24,7 +24,14 @@ export = (RED: Red) => {
 
         this.on('input', async (msg, send, done) => {
             let payload = msg.payload as Payload
-            let allSend = payload.target.chat.map(group => {
+            let metaInfo = msg.feishu_meta_info as MetaInfo
+
+            if (metaInfo === undefined) {
+                this.error("can'f get meta info")
+                return;
+            }
+
+            let allSend = metaInfo.target.chat.map(group => {
                 let groupId = typeof group === 'string' ? group : group.chat_id;
                 return sendMsg(
                     this.config.tenantToken,
@@ -34,7 +41,7 @@ export = (RED: Red) => {
                 )
             })
 
-            let allUserSend = payload.target.user.map(user => {
+            let allUserSend = metaInfo.target.user.map(user => {
                 return sendMsg(
                     this.config.tenantToken,
                     'open',
@@ -44,6 +51,7 @@ export = (RED: Red) => {
             })
 
             await Promise.all(allSend);
+            await Promise.all(allUserSend);
 
             done(msg);
         })

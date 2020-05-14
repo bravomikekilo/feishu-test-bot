@@ -27,7 +27,7 @@ export = (RED: Red) => {
 
         
 
-        setInterval(async () => {
+        this.intervalId = setInterval(async () => {
             let tenantTokenRes = await getTenantAccess(
                 this.appID,
                 this.appSecret,
@@ -40,6 +40,12 @@ export = (RED: Red) => {
 
 
         }, 60 * 1000);
+
+        this.on('close', () => {
+            if (this.intervalId !== undefined) {
+                clearInterval(this.intervalId)
+            }
+        })
     }
 
     RED.nodes.registerType('feishu-config', buildNode);

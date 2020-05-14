@@ -9,3 +9,12 @@ export interface Payload {
         user: string[]
     }
 }
+
+export interface MetaInfo {
+    target: {
+        chat: (string | Chat)[],
+        user: string[]
+    },
+    chat: (string | Chat)[],
+    user: string[]
+}

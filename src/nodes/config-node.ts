@@ -10,4 +10,5 @@ export interface FeishuConfigNode extends Node {
     appID: string;
     appSecret: string;
     tenantToken: string;
+    intervalId?: NodeJS.Timeout
 }
