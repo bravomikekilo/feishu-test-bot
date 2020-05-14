@@ -33,7 +33,8 @@ export = (RED: Red) => {
 
             console.log(`message: ${JSON.stringify(msg)}`)
 
-            msg.feishu_meta_info.target.chat = groupList.map(g => g.chat_id);
+            msg.feishu_meta_info.chat = groupList.map(g => g.chat_id);
+
 
             send(msg);
         })
