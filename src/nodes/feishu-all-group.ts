@@ -25,7 +25,19 @@ export = (RED: Red) => {
 
         this.on('input', async (msg, send, done) => {
             let payload = msg.payload as Payload
-            let metaInfo = msg.feishu_meta_info as MetaInfo
+            let metaInfo = msg.feishu_meta_info as MetaInfo | undefined
+
+            if (metaInfo === undefined) {
+                msg.feishu_meta_info = {
+                    target: {
+                        chat: [],
+                        user: []
+                    },
+                    chat: [],
+                    user: [],
+                }
+                metaInfo = msg.feishu_meta_info;
+            }
             
             let groupListRes = await getGroupList(this.config.tenantToken);
 

@@ -24,6 +24,7 @@
       "feishu-activate": "dist/nodes/feishu-activate.js",
       "feishu-upload-image": "dist/nodes/feishu-upload-image.js",
       "feishu-fetch-image": "dist/nodes/feishu-fetch-image.js",
+      "feishu-target": "dist/nodes/feishu-target.js",
       "feishu-msg": "dist/nodes/feishu-msg.js",
       "read-image": "dist/nodes/read-image.js"
     }

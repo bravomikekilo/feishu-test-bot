@@ -1,0 +1,31 @@
+<script type='text/javascript'>
+    RED.nodes.registerType('feishu-target', {
+        category: 'bot',
+        color: '#a6bbcf',
+        defaults: {
+            add: {value: false, type: 'boolean', required: true},
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: 'file.png',
+        label: function() {
+            return this.name || "feishu-target";
+        }
+    })
+</script>
+
+<script type='text/html', data-template-name='feishu-target'>
+    <div class='form-row'>
+        <label for="node-input-add">
+            <i class="icon-tag"></i> Add
+        </label>
+        <input type="checkbox" id="node-input-add">
+    </div>
+
+</script>
+
+<script type="text/html" data-help-name='feishu-target'>
+    <p>
+        A node set target on message
+    </p>
+</script>
