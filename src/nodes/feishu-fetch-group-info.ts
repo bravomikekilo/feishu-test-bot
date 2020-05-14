@@ -1,7 +1,7 @@
 import {NodeProperties, Red, NodeId} from 'node-red'
 import {Node} from 'node-red'
 import { FeishuConfigNode } from './config-node'
-import { Payload } from './payload'
+import { Payload, MetaInfo } from './payload'
 import { getGroupList } from '../io/getGroupList'
 import { getGroupInfo} from '../io/getGroupInfo'
 import { getGroupInfoURL } from '../io/api'
@@ -25,6 +25,20 @@ export = (RED: Red) => {
 
         this.on('input', async (msg, send, done) => {
             let payload = msg.payload as Payload
+            let metaInfo = msg.feishu_meta_info as MetaInfo
+
+            if (metaInfo === undefined) {
+                msg.feishu_meta_info = {
+                    target: {
+                        chat: [],
+                        user: []
+                    },
+                    chat: [],
+                    user: []
+                }
+
+                metaInfo = msg.feishu_meta_info;
+            }
             
             let groups = payload.target.chat;
             
@@ -39,7 +53,7 @@ export = (RED: Red) => {
 
             let new_groups = await Promise.all(fetchAll);
 
-            payload.target.chat = new_groups;
+            msg.feishu_meta_info.chat = new_groups;
 
             send(msg);
         })
