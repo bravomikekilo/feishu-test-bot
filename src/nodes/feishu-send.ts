@@ -53,7 +53,7 @@ export = (RED: Red) => {
             await Promise.all(allSend);
             await Promise.all(allUserSend);
 
-            done(msg);
+            done();
         })
 
     }
