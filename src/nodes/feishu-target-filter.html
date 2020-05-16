@@ -1,0 +1,350 @@
+<script type="text/javascript">
+    RED.nodes.registerType('feishu-target-remove',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            evalPropertyClass: {value:"group"},
+            evalGroupProperty: {value:"open_chat_id"},
+            evalUserProperty: {value:"open_user_id"},
+            filterMode: {value:"set"},
+            filterValueList: {value:[""]},
+            filterRegexPattern: {
+                value: undefined,
+                validate: function(v) {
+                    if(this.filterMode === 'regex') {
+                        return typeof(v) === 'string' && v;
+                    }
+                    return true;
+                }
+            },
+            filterRegexIgnoreCase: {value:false}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"feishu-target-remove";
+        },
+        oneditprepare: function() {
+            var node = this;
+
+            $("#node-input-evalPropertyClass").on("change", function(e) {
+                var val = $(this).val();
+                $(".node-row-group").toggle(val==='group');
+                $(".node-row-user").toggle(val==='user');
+            });
+
+            $("#node-input-filterMode").on("change", function(e) {
+                var val = $(this).val();
+                $(".node-row-set").toggle(val==='set');
+                $(".node-row-regex").toggle(val==='regex');
+                $(window).resize();
+            });
+
+            $("#node-input-evalPropertyClass").change();
+
+            $("#node-input-filter-value-element-container").css('min-height','150px').editableList({
+                addItem: function(row, index, data) {
+                    if(!data.hasOwnProperty('value')) {
+                        data.value = "";
+                    }
+                    $('<input/>', {class:"node-input-filter-value-element", type:"text", style:"width:100%"}).val(data.value).appendTo(row);
+                },
+                removable: true,
+                sortable: true
+            });
+
+            for(var i=0;i<node.filterValueList.length;i++) {
+                var valueElement = node.filterValueList[i];
+                $("#node-input-filter-value-element-container").editableList('addItem', {value: valueElement});
+            }
+        },
+        oneditsave: function() {
+            var rules = $("#node-input-filter-value-element-container").editableList('items');
+            var node = this;
+            node.filterValueList = [];
+            rules.each(function(i) {
+                var rule = $(this);
+                var valueElement = rule.find(".node-input-filter-value-element").val();
+                node.filterValueList.push(valueElement);
+            });
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form>div.form-row:not(.node-row-set):visible");
+            var height = size.height;
+            for (var i=0;i<rows.length;i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+            var editorRow = $("#dialog-form div.node-input-filter-value-element-container-row");
+            height -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            height -= 28;
+            $("#node-input-filter-value-element-container").editableList('height',height);
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="feishu-target-remove">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名称</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-evalPropertyClass">筛选对象</label>
+        <select id="node-input-evalPropertyClass" style="width:200px;">
+            <option value="group">群聊</option>
+            <option value="user">用户</option>
+        </select>
+    </div>
+    <div class="node-row-group">
+        <div class="form-row">
+            <label for="node-input-evalGroupProperty">筛选属性</label>
+            <select id="node-input-evalGroupProperty" style="width:200px;">
+                <option value="open_chat_id">群聊 open id</option>
+                <option value="name">群名称</option>
+            </select>
+        </div>
+    </div>
+    <div class="node-row-user">
+        <div class="form-row">
+            <label for="node-input-evalUserProperty">筛选属性</label>
+            <select id="node-input-evalUserProperty" style="width:200px;">
+                <option value="open_user_id">用户 open id</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="node-input-filterMode">筛选模式</label>
+        <select id="node-input-filterMode" style="width:200px;">
+            <option value="set">列表</option>
+            <option value="regex">正则表达式</option>
+        </select>
+    </div>
+    <div class="node-row-set">
+        <div class="form-row node-input-filter-value-element-container-row">
+            <ol id="node-input-filter-value-element-container"></ol>
+        </div>
+    </div>
+    <div class="node-row-regex">
+        <div class="form-row">
+            <label for="node-input-filterRegexPattern">匹配模式</label>
+            <input type="text" id="node-input-filterRegexPattern">
+        </div>
+        <div class="form-row">
+            <label>&nbsp;</label>
+            <input type="checkbox" id="node-input-filterRegexIgnoreCase" style="display:inline-block; width:auto; vertical-align:top;">
+            <label for="node-input-filterRegexIgnoreCase" style="width:70%;" style="margin-left:10px;">忽略大小写</label>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="feishu-target-remove">
+    <p>用于通过过滤器移除现有飞书发送目标的节点。飞书消息发送节点会将消息发送至飞书发送目标。</p>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('feishu-target-add',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            addMode: {value:"direct"},
+            directAddProperty: {value:"group"},
+            directAddValueList: {value:[""]},
+            evalPropertyClass: {value:"group"},
+            evalGroupProperty: {value:"open_chat_id"},
+            evalUserProperty: {value:"open_user_id"},
+            filterMode: {value:"set"},
+            filterValueList: {value:[""]},
+            filterRegexPattern: {
+                value: undefined,
+                validate: function(v) {
+                    if(this.filterMode === 'regex') {
+                        return typeof(v) === 'string' && v;
+                    }
+                    return true;
+                }
+            },
+            filterRegexIgnoreCase: {value:false}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"feishu-target-add";
+        },
+        oneditprepare: function() {
+            var node = this;
+
+            $("#node-input-addMode").on("change", function(e) {
+                var val = $(this).val();
+                $(".node-row-direct").toggle(val==='direct');
+                $(".node-row-filter").toggle(val==='filter');
+                $(window).resize();
+            });
+
+            $("#node-input-evalPropertyClass").on("change", function(e) {
+                var val = $(this).val();
+                $(".node-row-group").toggle(val==='group');
+                $(".node-row-user").toggle(val==='user');
+            });
+
+            $("#node-input-filterMode").on("change", function(e) {
+                var val = $(this).val();
+                $(".node-row-set").toggle(val==='set');
+                $(".node-row-regex").toggle(val==='regex');
+            });
+
+            $("#node-input-evalPropertyClass").change();
+
+            $("#node-input-add-value-element-container").css('min-height','150px').editableList({
+                addItem: function(row, index, data) {
+                    if(!data.hasOwnProperty('value')) {
+                        data.value = "";
+                    }
+                    $('<input/>', {class:"node-input-add-value-element", type:"text", style:"width:100%"}).val(data.value).appendTo(row);
+                },
+                removable: true,
+                sortable: true
+            });
+
+            $("#node-input-filter-value-element-container").css('min-height','150px').editableList({
+                addItem: function(row, index, data) {
+                    if(!data.hasOwnProperty('value')) {
+                        data.value = "";
+                    }
+                    $('<input/>', {class:"node-input-filter-value-element", type:"text", style:"width:100%"}).val(data.value).appendTo(row);
+                },
+                removable: true,
+                sortable: true
+            });
+
+            for(var i=0;i<node.directAddValueList.length;i++) {
+                var valueElement = node.directAddValueList[i];
+                $("#node-input-add-value-element-container").editableList('addItem', {value: valueElement});
+            }
+            for(var i=0;i<node.filterValueList.length;i++) {
+                var valueElement = node.filterValueList[i];
+                $("#node-input-filter-value-element-container").editableList('addItem', {value: valueElement});
+            }
+        },
+        oneditsave: function() {
+            var node = this;
+
+            var rules = $("#node-input-add-value-element-container").editableList('items');
+            node.directAddValueList = [];
+            rules.each(function(i) {
+                var rule = $(this);
+                var valueElement = rule.find(".node-input-add-value-element").val();
+                node.directAddValueList.push(valueElement);
+            });
+
+            var rules = $("#node-input-filter-value-element-container").editableList('items');
+            node.filterValueList = [];
+            rules.each(function(i) {
+                var rule = $(this);
+                var valueElement = rule.find(".node-input-filter-value-element").val();
+                node.filterValueList.push(valueElement);
+            });
+        },
+        oneditresize: function(size) {
+            var rows = $("#dialog-form div.form-row:not(.node-input-add-value-element-container-row):not(.node-input-filter-value-element-container-row):visible");
+            var height = size.height;
+
+            for (var i=0;i<rows.length;i++) {
+                height -= $(rows[i]).outerHeight(true);
+            }
+
+            var editorRow = $("#dialog-form div.node-input-add-value-element-container-row");
+            var appliedHeight = height;
+            appliedHeight -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            appliedHeight += 16;
+            $("#node-input-add-value-element-container").editableList('height',appliedHeight);
+
+            var editorRow = $("#dialog-form div.node-input-filter-value-element-container-row");
+            var appliedHeight = height;
+            appliedHeight -= (parseInt(editorRow.css("marginTop"))+parseInt(editorRow.css("marginBottom")));
+            appliedHeight += 16;
+            $("#node-input-filter-value-element-container").editableList('height',appliedHeight);
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="feishu-target-add">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> 名称</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-addMode">添加模式</label>
+        <select id="node-input-addMode" style="width:200px;">
+            <option value="direct">直接添加</option>
+            <option value="filter">筛选</option>
+        </select>
+    </div>
+    <div class="node-row-direct">
+        <div class="form-row">
+            <label for="node-input-directAddProperty">添加对象</label>
+            <select id="node-input-directAddProperty" style="width:200px;">
+                <option value="group">群聊 open id</option>
+                <option value="user">用户 open id</option>
+            </select>
+        </div>
+        <div class="form-row node-input-add-value-element-container-row">
+            <ol id="node-input-add-value-element-container"></ol>
+        </div>
+    </div>
+    <div class="node-row-filter">
+        <div class="form-row">
+            <label for="node-input-evalPropertyClass">筛选对象</label>
+            <select id="node-input-evalPropertyClass" style="width:200px;">
+                <option value="group">群聊</option>
+                <option value="user">用户</option>
+            </select>
+        </div>
+        <div class="node-row-group">
+            <div class="form-row">
+                <label for="node-input-evalGroupProperty">筛选属性</label>
+                <select id="node-input-evalGroupProperty" style="width:200px;">
+                    <option value="open_chat_id">群聊 open id</option>
+                    <option value="name">群名称</option>
+                </select>
+            </div>
+        </div>
+        <div class="node-row-user">
+            <div class="form-row">
+                <label for="node-input-evalUserProperty">筛选属性</label>
+                <select id="node-input-evalUserProperty" style="width:200px;">
+                    <option value="open_user_id">用户 open id</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <label for="node-input-filterMode">筛选模式</label>
+            <select id="node-input-filterMode" style="width:200px;">
+                <option value="set">列表</option>
+                <option value="regex">正则表达式</option>
+            </select>
+        </div>
+        <div class="node-row-set">
+            <div class="form-row node-input-filter-value-element-container-row">
+                <ol id="node-input-filter-value-element-container"></ol>
+            </div>
+        </div>
+        <div class="node-row-regex">
+            <div class="form-row">
+                <label for="node-input-filterRegexPattern">匹配模式</label>
+                <input type="text" id="node-input-filterRegexPattern">
+            </div>
+            <div class="form-row">
+                <label>&nbsp;</label>
+                <input type="checkbox" id="node-input-filterRegexIgnoreCase" style="display:inline-block; width:auto; vertical-align:top;">
+                <label for="node-input-filterRegexIgnoreCase" style="width:70%;" style="margin-left:10px;">忽略大小写</label>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="feishu-target-add">
+    <p>用于添加飞书发送目标的节点。飞书消息发送节点会将消息发送至飞书发送目标。</p>
+</script>
