@@ -4,7 +4,7 @@
   "description": "a test bot for feishu",
   "main": "index.js",
   "scripts": {
-    "build": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html dist/nodes && tsc",
+    "build": "mkdir -p dist/nodes/ && cp -a src/nodes/*.html src/nodes/*.js dist/nodes && tsc",
     "start": "node index.js",
     "watch": "tsc -watch",
     "prestart": "tsc",
@@ -24,7 +24,8 @@
       "feishu-fetch-image": "dist/nodes/feishu-fetch-image.js",
       "feishu-target": "dist/nodes/feishu-target.js",
       "feishu-msg": "dist/nodes/feishu-msg.js",
-      "read-image": "dist/nodes/read-image.js"
+      "read-image": "dist/nodes/read-image.js",
+      "feishu-target-filter": "dist/nodes/feishu-target-filter.js"
     }
   },
   "devDependencies": {
