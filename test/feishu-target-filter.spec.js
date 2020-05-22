@@ -143,6 +143,7 @@ describe('feishu-target-remove Node', function () {
                     target: {
                         chat: [
                             "test_chat_id_1",
+                            "TEST_CHAT_ID_1",
                             "test_chat_id_2"
                         ],
                         user: []
@@ -160,8 +161,9 @@ describe('feishu-target-remove Node', function () {
                 validate: function(msg) {
                     var target = msg.feishu_meta_info.target;
                     target.user.should.with.lengthOf(0);
-                    target.chat.should.with.lengthOf(1);
-                    target.chat[0].should.be.a.String().and.be.exactly("test_chat_id_2");
+                    target.chat.should.with.lengthOf(2);
+                    target.chat[0].should.be.a.String().and.be.exactly("TEST_CHAT_ID_1");
+                    target.chat[1].should.be.a.String().and.be.exactly("test_chat_id_2");
                 }
             },
             {
@@ -735,6 +737,7 @@ describe('feishu-target-add Node', function () {
                     feishu_meta_info: {
                         chat: [
                             "test_chat_id_1",
+                            "TEST_CHAT_ID_1",
                             "test_chat_id_2"
                         ],
                         user: []
@@ -758,14 +761,14 @@ describe('feishu-target-add Node', function () {
                 {
                     name: "ignore case",
                     preprocess: function() {
-                        testNodeConfig.filterRegexPattern = "Id_1";
+                        testNodeConfig.filterRegexPattern = "Id_2";
                         testNodeConfig.filterRegexIgnoreCase = true;
                     },
                     validate: function(msg) {
                         var target = msg.feishu_meta_info.target;
                         target.user.should.with.lengthOf(0);
                         target.chat.should.with.lengthOf(1);
-                        target.chat[0].should.be.a.String().and.be.exactly("test_chat_id_1");
+                        target.chat[0].should.be.a.String().and.be.exactly("test_chat_id_2");
                     }
                 }
             ]
