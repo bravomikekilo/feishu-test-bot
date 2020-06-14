@@ -37,6 +37,29 @@
 
 <script type="text/html" data-help-name='feishu-msg'>
     <p>
-        A node receive message as a feishu bot
+        接收飞书机器人收到的消息的节点
     </p>
+    <h3>Outputs</h3>
+        <dl class="message-properites">
+            <dt>payload
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                如果收到的消息是文本消息，那么payload是 { text: string } <br>
+                如果收到的消息是图片消息，那么payload是 { image_key: string }
+            </dd>
+        </dl>
+
+        <dl class="message-properites">
+            <dt>feishu_meta_info
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                标准的飞书元信息，如果消息来自群聊，则feishu_meta_info.target.chat中将会有群聊的chat_id。
+                <br> 如果消息来自私聊，则feishu_meta_info.target.user中将会有用户的open_id
+            </dd>
+        </dl>
+
+
+
 </script>

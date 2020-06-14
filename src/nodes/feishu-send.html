@@ -26,6 +26,29 @@
 
 <script type="text/html" data-help-name='feishu-send'>
     <p>
-        A node send message as a feishu bot
+        使用飞书机器人，发送消息的节点
     </p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properites">
+            <dt>payload
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                如果消息是文本消息，那么payload是 { text: string } <br>
+                如果消息是图片消息，那么payload是 { image_key: string }
+            </dd>
+        </dl>
+
+        <dl class="message-properites">
+            <dt>feishu_meta_info
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                标准的飞书元信息，节点会将消息向feishu_meta_info.target.chat中所有的群进行发送。
+                <br> 节点会将消息向feishu_meta_info.target.user中所有用户发送私聊消息。
+            </dd>
+        </dl>
+
+
 </script>

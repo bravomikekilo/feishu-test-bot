@@ -26,7 +26,23 @@
 
 <script type="text/html" data-help-name='feishu-upload-image'>
     <p>
-        A node upload image to feishu platform
-        return a image_key string as payload
+        将图片上传到飞书开放平台，输出获得的image_key
     </p>
+
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload
+                <span class="property-type">Buffer</span>
+            </dt>
+            <dd> 输入的数据。包含图片二进制内容的Buffer</dd>
+        </dl>
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload
+                <span class="property-type">string </span>
+            </dt>
+            <dd> 输出的数据。应该是在飞书开发平台上传图片得到的image_key</dd>
+        </dl>
+
 </script>

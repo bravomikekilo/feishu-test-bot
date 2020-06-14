@@ -26,6 +26,46 @@
 
 <script type="text/html" data-help-name='feishu-target'>
     <p>
-        A node set target on message
+        一个用来设置消息发送目标的节点
     </p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properites">
+            <dt>payload
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                如果收到的消息是文本消息，那么payload是 { text: string } <br>
+                如果收到的消息是图片消息，那么payload是 { image_key: string }
+            </dd>
+        </dl>
+
+        <dl class="message-properites">
+            <dt>feishu_meta_info
+                <span class="property-type">Object</span>
+            </dt>
+            <dd>
+                标准的飞书元信息
+            </dd>
+        </dl>
+
+        <dl class="message-properites">
+            <dt>topic
+                <span class="property-type">string</span>
+            </dt>
+            <dd>
+                控制字段<br> 如果topic是null, 那么设置消息的目标 <br>
+                如果节点的add 属性为true, 那么将节点中储存的目标添加到feishu_meta_info.target中, <br> 
+                否则将feishu_meta_info.target替换为节点中储存的目标 <br>
+
+                如果topic是add, 那么消息的目标添加到节点储存的目标中。 <br>
+
+                如果topic是remove, 那么节点储存的目标中删除消息的目标。 <br>
+            </dd>
+        </dl>
+
+    <h3>Outputs</h3>
+        如果topic为null, 那么输出设置过目标的消息。
+        否则不输出消息。
+
 </script>

@@ -26,6 +26,31 @@
 
 <script type="text/html" data-help-name='feishu-all-group'>
     <p>
-        A simple node add all group to message target
+        将机器人所在的所有群添加到消息的元数据区
     </p>
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>feishu_meta_info.chat
+                <span class="property-type">
+                    Array&lt;string | Chat&gt;
+                </span>
+            </dt>
+            <dd>
+                输入消息的元数据中所有群聊, 应保证输入消息中该属性存在
+            </dd>
+        </dl>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>feishu_meta_info.chat
+                <span class="property-type">
+                    Array&lt;string&gt;
+                </span>
+            </dt>
+            <dd>
+                机器人所在的所有群聊的chat_id
+            </dd>
+        </dl>
+    
+
 </script>

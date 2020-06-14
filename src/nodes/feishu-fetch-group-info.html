@@ -3,18 +3,18 @@
         category: 'bot',
         color: '#a6bbcf',
         defaults: {
-            config: {value: "", type: 'feishu-config'},
+            config: { value: "", type: 'feishu-config' },
         },
         inputs: 1,
         outputs: 1,
         icon: 'file.png',
-        label: function() {
+        label: function () {
             return this.name || "feishu-fetch-group-info";
         }
     })
 </script>
 
-<script type='text/html', data-template-name='feishu-fetch-group-info'>
+<script type='text/html' , data-template-name='feishu-fetch-group-info'>
     <div class='form-row'>
         <label for="node-input-config">
             <i class="icon-tag"></i> Name
@@ -26,6 +26,55 @@
 
 <script type="text/html" data-help-name='feishu-fetch-group-info'>
     <p>
-        A node fetch group info of a message
+        查询消息元数据中的群聊的详细信息的节点
     </p>
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>feishu_meta_info.chat
+                <span class="property-type">
+                    Array&lt;string | Chat&gt;
+                </span>
+            </dt>
+            <dd>
+                输入消息的元数据中所有群聊, 应保证输入消息中该属性存在
+            </dd>
+        </dl>
+
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>feishu_meta_info.chat
+                <span class="property-type">
+                    Array&lt;Chat&gt;
+                </span>
+            </dt>
+            <dd>
+                机器人所在的所有群聊的详细信息
+            </dd>
+        </dl>
+    
+    <h3>Details</h3>
+        <p> Chat 类型的详细定义 
+            <code>
+export interface Chat {
+    avatar: string,
+    chat_id: string,
+    description: string,
+    i18n_names?: {
+        en_us: string,
+        ja_jp: string,
+        zh_cn: string,
+    },
+    members: {
+        open_id: string,
+        user_id: string,
+    }[],
+    name: string,
+    type: "group"
+    owner_open_id: string,
+    owner_user_id: string
+}
+            </code> 
+        </p>
+
 </script>
