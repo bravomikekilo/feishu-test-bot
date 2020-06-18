@@ -71,7 +71,9 @@ export async function sendImage(auth: string, targetType: TargetType, target: st
 export async function sendPost(auth: string, targetType: TargetType, target: string, content: any) {
     let req: SendPostMsgReq = {
         msg_type: 'post',
-        content: content,
+        content: {
+            post: content
+        },
     }
 
     setTarget(req, targetType, target);
